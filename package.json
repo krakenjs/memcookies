@@ -1,0 +1,23 @@
+{
+  "name": "memcookies",
+  "version": "0.0.1",
+  "description": "Encrypt and store cookies in client-side on outgoing requests, decrypt and use them on incoming requests. For cookies disabled mode.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.paypal.com/NodeXOShared/memcookies"
+  },
+  "keywords": [
+    "cookies"
+  ],
+  "author": "dbrain@paypal.com",
+  "license": "MIT",
+  "dependencies": {
+    "onheaders": "~1.0.0",
+    "cryptutils-paypal": "^1.0.0",
+    "cookiejar": "2.0.1"
+  }
+}
