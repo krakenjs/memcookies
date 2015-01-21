@@ -16,7 +16,7 @@
   "author": "dbrain@paypal.com",
   "license": "MIT",
   "dependencies": {
-    "onheaders": "~1.0.0",
+    "on-headers": "~1.0.0",
     "cryptutils-paypal": "^1.0.0",
     "cookiejar": "2.0.1"
   }
