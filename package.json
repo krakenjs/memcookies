@@ -19,5 +19,8 @@
     "on-headers": "~1.0.0",
     "cryptutils-paypal": "^1.0.0",
     "cookiejar": "2.0.1"
+  },
+  "publishingConfig": {
+    "registry": "http://npm.paypal.com"
   }
 }
