@@ -20,7 +20,7 @@
     "cryptutils-paypal": "^1.0.0",
     "cookiejar": "2.0.1"
   },
-  "publishingConfig": {
+  "publishConfig": {
     "registry": "http://npm.paypal.com"
   }
 }
