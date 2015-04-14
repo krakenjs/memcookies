@@ -64,6 +64,15 @@ module.exports = function memCookies(configuration) {
     }
 
 
+    function parseData(data) {
+        try {
+            return JSON.parse(data);
+        }
+        catch(e) {
+            return '';
+        }
+    }
+
     return function (req, res, next) {
 
         // Read encrypted cookies from request. I only want to do this when my front-end tells
@@ -71,13 +80,12 @@ module.exports = function memCookies(configuration) {
 
         // Encrypted cookies sent by the front-end
 
-        var memCookies = req.header('X-cookies');
+        var memCookies = parseData(req.header('X-cookies'));
 
         // If we are sent some cookies, we should decrypt them
 
         if (memCookies) {
 
-            memCookies = JSON.parse(memCookies);
             var now = (new Date()).getTime();
 
             // Loop over each sent cookie, join them, and add them to the header,
@@ -85,26 +93,23 @@ module.exports = function memCookies(configuration) {
 
             req.headers.cookie = Object.keys(memCookies).map(function (encrypted_key) {
 
-                // Encrypted cookies are in the form `key: [value, expiry, userAgent]`
+                // Encrypted cookies are in the form `key: [value, expiry]`
 
                 var key = decrypt(encrypted_key);
-                var payload = JSON.parse(decrypt(memCookies[encrypted_key]));
+                var payload = parseData(decrypt(memCookies[encrypted_key]));
+
+                if (!key || !payload || !(payload.length >= 2)) {
+                    return;
+                }
+
                 var val = payload[0];
                 var expiry = payload[1];
-                var userAgent = payload[2];
 
                 // If the cookie has expired, we should ignore it - the browser can no longer
                 // expire cookies for us.
 
                 if (expiry <= now) {
                     return;
-                }
-
-                // If the user-agent does not match, we should fail hard
-
-                if (userAgent !== req.header('User-agent')) {
-                    res.send(401);
-                    throw new Error('memCookies: user-agent mismatch');
                 }
 
                 // Return the cookie in the standard header format.
@@ -149,11 +154,7 @@ module.exports = function memCookies(configuration) {
                         // Expiry should be either the set expiry, or 20 mins, whichever is smaller.
                         // The purpose of this is to mitigate against replay attacks using these cookies.
 
-                        Math.min(cookie.expiration_date, maxExpiry),
-
-                        // Adding a user-agent provides a degree of indirection against replay attacks
-
-                        req.header('User-agent')
+                        Math.min(cookie.expiration_date, maxExpiry)
                     ];
 
                     cookies[encrypt(cookie.name)] = encrypt(JSON.stringify(payload));
