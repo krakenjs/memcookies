@@ -66,7 +66,7 @@ module.exports = function memCookies(configuration) {
 
     function parseData(data) {
         try {
-            return JSON.parse(data);
+            return data && JSON.parse(data) || '';
         }
         catch(e) {
             return '';
