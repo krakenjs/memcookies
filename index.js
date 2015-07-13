@@ -36,7 +36,7 @@ module.exports = function memCookies(configuration) {
 
      */
 
-    var ppcrypto = new ppcryptutils({
+    var ppcrypto = new ppcryptutils({ // eslint-disable-line new-cap
         encryptionAlgorithm: 'desx',
         macAlgorithm: 'sha1',
         encryptionKey: configuration.encryptionKey,
@@ -131,7 +131,7 @@ module.exports = function memCookies(configuration) {
 
                 // Loop each of these cookies and parse the key/value
                 rawCookies.forEach(function (cookie) {
-                    cookie = cookiejar.Cookie(cookie);
+                    cookie = cookiejar.Cookie(cookie); // eslint-disable-line new-cap
 
                     var payload = [
                         cookie.value,
