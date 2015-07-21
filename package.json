@@ -4,7 +4,8 @@
   "description": "Encrypt and store cookies in client-side on outgoing requests, decrypt and use them on incoming requests. For cookies disabled mode.",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js"
+    "test": "eslint index.js",
+    "lint": "npm run test"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,9 @@
     "eslint-plugin-consumerweb": "^1.0.0",
     "istanbul": "^0.3.8",
     "mocha": "^2.2.1",
-    "pre-commit": "^1.0.6"
-  }
+    "pre-commit": "^1.0.10"
+  },
+  "pre-commit": [
+    "lint"
+  ]
 }
