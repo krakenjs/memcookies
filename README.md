@@ -1,0 +1,3 @@
+# memcookies
+[![Dependency Status](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies.svg)](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies)
+[![devDependency Status](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies/dev-status.svg)](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies#info=devDependencies)
