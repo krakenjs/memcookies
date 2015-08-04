@@ -26,9 +26,10 @@
   },
   "devDependencies": {
     "chai": "^2.1.2",
-    "eslint": "^0.24.1",
-    "eslint-config-xo": "^2.0.0",
+    "eslint": "^1.0.0",
+    "eslint-config-xo": "^3.0.1",
     "eslint-plugin-consumerweb": "^1.0.0",
+    "grunt-eslint": "^17.0.0",
     "istanbul": "^0.3.8",
     "mocha": "^2.2.1",
     "pre-commit": "^1.0.10"

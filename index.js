@@ -120,7 +120,7 @@ module.exports = function memCookies(configuration) {
             onHeaders(res, function () {
 
                 // Maximum expiry time should be 20 minutes from now
-                var maxExpiry = (new Date()).getTime() + (20 * 60 * 1000);
+                var maxExpiry = (new Date()).getTime() + (20 * 60 * 1000); // eslint-disable-line no-extra-parens
 
                 // Get the raw cookies into a normalized array of raw cookie strings
                 var rawCookies = res._headers['set-cookie'] || [];
