@@ -3,6 +3,49 @@
 var onHeaders = require('on-headers');
 var ppcryptutils = require('cryptutils-paypal');
 var cookiejar = require('cookiejar');
+var crypto = require('crypto');
+var util = require('util');
+var _ = require('underscore');
+
+
+/*
+    CSRF Error
+    ----------
+
+    A custom CSRF Error specifically for cases when we want to throw a 301 to the user's browser.
+    Everything else is considered an unhandled error.
+*/
+
+function MemCookiesError(message) {
+    this.message = this.code = 'EINVALIDMEMCOOKIES_' + message;
+}
+
+util.inherits(MemCookiesError, Error);
+
+/*
+    Hash
+    ----
+
+    Hash a string using sha256
+*/
+
+function hash(text) {
+    return crypto.createHash('sha256').update(text).digest('hex');
+}
+
+
+function hashCookies(reqCookies, resCookies) {
+
+    var allCookies = _.extend({}, reqCookies, resCookies || {});
+
+    var allCookiesString = Object.keys(allCookies).sort().map(function(name) {
+        return name + '=' + allCookies[name];
+    }).join('; ') || '';
+
+    return hash(allCookiesString);
+}
+
+
 
 module.exports = function memCookies(configuration) {
 
@@ -74,10 +117,28 @@ module.exports = function memCookies(configuration) {
 
     return function (req, res, next) {
 
+        var meta = (req.body && req.body.meta) || (req.query.meta && JSON.parse(req.query.meta)) || {};
+
         // Read encrypted cookies from request. I only want to do this when my front-end tells
         // me it's in cookies-disabled mode, and has actually sent me some cookies.
         // Encrypted cookies sent by the front-end
         var xCookies = parseData(req.header('X-cookies'));
+        var xCookiesBody = meta['x-cookies'];
+
+        if (!xCookies && xCookiesBody) {
+            xCookiesBody = JSON.parse(xCookiesBody);
+            var xCookiesHash = req.headers['x-cookies-hash'];
+
+            if (!xCookiesHash) {
+                throw new MemCookiesError('BODY_COOKIE_HASH_HEADER_MISSING');
+            }
+
+            if (hashCookies(xCookiesBody) !== xCookiesHash) {
+                throw new MemCookiesError('BODY_COOKIE_HASH_MISMATCH');
+            }
+
+            xCookies = xCookiesBody;
+        }
 
         // If we are sent some cookies, we should decrypt them
         if (xCookies) {
@@ -143,12 +204,11 @@ module.exports = function memCookies(configuration) {
                     cookies[encrypt(cookie.name)] = encrypt(JSON.stringify(payload));
                 });
 
-                // If our request is asking for headers, we should give it a header.
-                if (xCookies) {
+                res.locals.encryptedCookies = cookies;
+
+                if (xCookies || !req.headers.cookie) {
                     res.setHeader('X-cookies', JSON.stringify(cookies));
-                // Otherwise save cookies in the res for whatever renderer needs them later
-                } else {
-                    res.locals.encryptedCookies = cookies;
+                    res.setHeader('x-cookies-hash', hashCookies(xCookies, cookies));
                 }
             });
         }
