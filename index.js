@@ -29,12 +29,12 @@ util.inherits(MemCookiesError, Error);
     Hash a string using sha256
 */
 
-function hash(text) {
-    return crypto.createHash('sha256').update(text).digest('hex');
+function hash(secret, text) {
+    return crypto.createHmac('sha256', secret).update(text).digest('hex');
 }
 
 
-function hashCookies(reqCookies, resCookies) {
+function hashCookies(secret, reqCookies, resCookies) {
 
     var allCookies = _.extend({}, reqCookies, resCookies || {});
 
@@ -42,7 +42,7 @@ function hashCookies(reqCookies, resCookies) {
         return name + '=' + allCookies[name];
     }).join('; ') || '';
 
-    return hash(allCookiesString);
+    return hash(secret, allCookiesString);
 }
 
 
@@ -133,7 +133,7 @@ module.exports = function memCookies(configuration) {
                 throw new MemCookiesError('BODY_COOKIE_HASH_HEADER_MISSING');
             }
 
-            if (hashCookies(xCookiesBody) !== xCookiesHash) {
+            if (hashCookies(configuration.encryptionKey, xCookiesBody) !== xCookiesHash) {
                 throw new MemCookiesError('BODY_COOKIE_HASH_MISMATCH');
             }
 
@@ -208,7 +208,7 @@ module.exports = function memCookies(configuration) {
 
                 if (xCookies || !req.headers.cookie) {
                     res.setHeader('X-cookies', JSON.stringify(cookies));
-                    res.setHeader('x-cookies-hash', hashCookies(xCookies, cookies));
+                    res.setHeader('x-cookies-hash', hashCookies(configuration.encryptionKey, xCookies, cookies));
                 }
             });
         }
