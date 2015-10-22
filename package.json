@@ -1,6 +1,6 @@
 {
   "name": "memcookies",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Encrypt and store cookies in client-side on outgoing requests, decrypt and use them on incoming requests. For cookies disabled mode.",
   "main": "index.js",
   "scripts": {
