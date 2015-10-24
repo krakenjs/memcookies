@@ -177,15 +177,38 @@ module.exports = function memCookies(configuration) {
         // or b) when I'm doing a full page render, which will have no access to its headers.
         if (xCookies || !req.xhr) {
 
+            var rawCookies = [];
+            var setHeader = res.setHeader;
+
+            res.setHeader = function (name, value) {
+
+                if (name.toLowerCase() === 'set-cookie') {
+
+                    if (value instanceof Array) {
+                        value.forEach(function(subvalue) {
+                            if (rawCookies.indexOf(subvalue) === -1) {
+                                rawCookies.push(subvalue);
+                            }
+                        });
+                    }
+                    else {
+                        rawCookies.push(value);
+                    }
+
+                    if (!xCookies) {
+                        return setHeader.apply(this, arguments);
+                    }
+
+                } else {
+                    return setHeader.apply(this, arguments);
+                }
+            };
+
             // Listen for response headers to be sent, so we can be sure all cookies have been dropped
             onHeaders(res, function () {
 
                 // Maximum expiry time should be 20 minutes from now
                 var maxExpiry = (new Date()).getTime() + (20 * 60 * 1000); // eslint-disable-line no-extra-parens
-
-                // Get the raw cookies into a normalized array of raw cookie strings
-                var rawCookies = res._headers['set-cookie'] || [];
-                rawCookies = typeof rawCookies === 'string' ? [rawCookies] : rawCookies;
 
                 // Mapping of encrypted cookies
                 var cookies = {};
