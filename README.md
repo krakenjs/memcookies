@@ -1,3 +1,5 @@
 # memcookies
-[![Dependency Status](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies.svg)](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies)
-[![devDependency Status](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies/dev-status.svg)](http://daviddm-5042.ccg21.dev.paypalcorp.com:1337/NodeXOShared/memcookies#info=devDependencies)
+
+[![Dependency Status](http://tooling.paypalcorp.com/badges/npm/version/memcookies.svg?style=flat-square)](http://tooling.paypalcorp.com/badges/npm/version/memcookies.svg?style=flat-square)
+[![Dependency Status](http://tooling.paypalcorp.com/badges/david/NodeXOShared/memcookies.svg?style=flat-square)](http://tooling.paypalcorp.com/badges/david/NodeXOShared/memcookies.svg?style=flat-square)
+[![devDependency Status](http://tooling.paypalcorp.com:/badges/david/dev/NodeXOShared/memcookies.svg?style=flat-square)](http://tooling.paypalcorp.com/badges/david/NodeXOShared/memcookies.svg?style=flat-square)
