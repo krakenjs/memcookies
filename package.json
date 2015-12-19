@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "on-headers": "~1.0.0",
-    "cryptutils-paypal": "^1.0.0",
+    "cryptutils-paypal": "^2",
     "cookiejar": "2.0.1"
   },
   "publishConfig": {
@@ -28,7 +28,6 @@
     "chai": "^2.1.2",
     "eslint": "^1.3.1",
     "eslint-config-xo": "^3.2.4",
-    "eslint-plugin-angular": "^0.9.0",
     "eslint-plugin-consumerweb": "^1.5.0",
     "eslint-plugin-fasec": "^0.1.3",
     "grunt-eslint": "^17.0.0",

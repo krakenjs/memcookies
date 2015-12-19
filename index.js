@@ -45,8 +45,6 @@ function hashCookies(secret, reqCookies, resCookies) {
     return hash(secret, allCookiesString);
 }
 
-
-
 module.exports = function memCookies(configuration) {
 
     /*
@@ -87,23 +85,11 @@ module.exports = function memCookies(configuration) {
     });
 
     function encrypt(text) {
-        var result;
-
-        ppcrypto.sealAndEncode(new Buffer(text), function (encrypted_text) {
-            result = encrypted_text;
-        });
-
-        return result;
+        return ppcrypto.sealAndEncode(new Buffer(text)).toString();
     }
 
     function decrypt(encrypted_text) {
-        var result;
-
-        ppcrypto.decodeAndUnseal(encrypted_text, function (text) {
-            result = text.toString();
-        });
-
-        return result;
+        return ppcrypto.decodeAndUnseal(encrypted_text).toString();
     }
 
 
