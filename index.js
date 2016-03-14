@@ -215,10 +215,8 @@ module.exports = function memCookies(configuration) {
 
                 res.locals.encryptedCookies = cookies;
 
-                if (xCookies || !req.headers.cookie) {
-                    res.setHeader('X-cookies', JSON.stringify(cookies));
-                    res.setHeader('x-cookies-hash', hashCookies(configuration.encryptionKey, xCookies, cookies));
-                }
+                res.setHeader('X-cookies', JSON.stringify(cookies));
+                res.setHeader('x-cookies-hash', hashCookies(configuration.encryptionKey, xCookies, cookies));
             });
         }
 
