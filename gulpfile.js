@@ -3,12 +3,11 @@ var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var webpack = require('webpack');
 var gulpWebpack = require('gulp-webpack');
-var mocha = require('gulp-mocha');
 
 gulp.task('build', ['webpack', 'webpack-min']);
 
-var FILE_NAME = 'jwt-csrf';
-var MODULE_NAME = 'jwtCsrf';
+var FILE_NAME = 'memcookies';
+var MODULE_NAME = 'memcookies';
 
 var WEBPACK_CONFIG = {
     module: {
@@ -552,13 +551,13 @@ var ESLINT_CONFIG_ES6 = {
 };
 
 
-gulp.task('webpack', ['lint', 'mocha'], function() {
+gulp.task('webpack', ['lint'], function() {
     return gulp.src('client/index.js')
         .pipe(gulpWebpack(WEBPACK_CONFIG))
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('webpack-min', ['lint', 'mocha'], function() {
+gulp.task('webpack-min', ['lint'], function() {
     return gulp.src('client/index.js')
         .pipe(gulpWebpack(WEBPACK_CONFIG_MIN))
         .pipe(gulp.dest('dist'));
@@ -576,10 +575,4 @@ gulp.task('lint:server', function() {
     return gulp.src(['src/**']).pipe(eslint(ESLINT_CONFIG))
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
-});
-
-gulp.task('mocha', () => {
-    return gulp.src(['test/jwtCsrfSpec.js'])
-        // gulp-mocha needs filepaths so you can't have any plugins before it
-        .pipe(mocha());
 });
