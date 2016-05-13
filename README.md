@@ -41,7 +41,7 @@ var templateContext = {
 };
 ```
 
-You have two options for persisting the csrf token on the client side:
+You have two options for persisting the cookies on the client side:
 
 #### 1. Manually
 
@@ -60,7 +60,7 @@ jQuery.ajax({
         'x-cookies': JSON.stringify(memcookies)
     },
     success: function(data, textStatus, request){
-        var newcookies = JSON.parse(request.getResponseHeader('x-csrf-jwt'));
+        var newcookies = JSON.parse(request.getResponseHeader('x-cookies'));
         jQuery.extend(memcookies, newcookies);
     }
 });
@@ -70,8 +70,8 @@ jQuery.ajax({
 
 ```javascript
 var memcookies = require('memcookies/client');
-jwtCsrf.setCookies(initialCookiesJSON);
-jwtCsrf.patchXhr();
+memcookies.setCookies(initialCookiesJSON);
+memcookies.patchXhr();
 ```
 
 This will hook into each request and response and automatically persist the cookies on the client side for you.
