@@ -45,7 +45,7 @@ You have two options for persisting the cookies on the client side:
 
 #### 1. Manually
 
-- On evert ajax response, persist the `x-cookies` header
+- On every ajax response, persist the `x-cookies` header
 - On every ajax request, send the persisted `x-cookies` header
 
 For example:
