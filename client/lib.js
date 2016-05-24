@@ -4,7 +4,7 @@ export function extend(obj, source) {
         return obj;
     }
 
-    for (var key in source) {
+    for (let key in source) {
         if (source.hasOwnProperty(key)) {
             obj[key] = source[key];
         }
@@ -16,13 +16,13 @@ export function extend(obj, source) {
 export function interceptHeader(name, { get, set }) {
 
     if (set) {
-        var open = window.XMLHttpRequest.prototype.open;
+        let open = window.XMLHttpRequest.prototype.open;
 
         window.XMLHttpRequest.prototype.open = function () {
 
-            var result = open.apply(this, arguments);
+            let result = open.apply(this, arguments);
 
-            var value = set();
+            let value = set();
 
             if (value) {
                 this.setRequestHeader(name, value);
@@ -30,7 +30,7 @@ export function interceptHeader(name, { get, set }) {
                 return result;
             }
 
-            var setRequestHeader = this.setRequestHeader;
+            let setRequestHeader = this.setRequestHeader;
 
             this.setRequestHeader = function(headerName, headerValue) {
 
@@ -47,16 +47,16 @@ export function interceptHeader(name, { get, set }) {
 
     if (get) {
 
-        var send = window.XMLHttpRequest.prototype.send;
+        let send = window.XMLHttpRequest.prototype.send;
 
         window.XMLHttpRequest.prototype.send = function () {
 
-            var self = this;
-            var onreadystatechange = self.onreadystatechange;
+            let self = this;
+            let onreadystatechange = self.onreadystatechange;
 
             function listener() {
                 try {
-                    var newValue = this.getResponseHeader(name);
+                    let newValue = this.getResponseHeader(name);
 
                     if (newValue) {
                         get(newValue);

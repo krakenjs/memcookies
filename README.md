@@ -1,4 +1,4 @@
-Mem Cookies
+memcookies
 -----------
 
 Persist cookies when in cookies disabled mode, by automatically encrypting them and storing them on the client side.

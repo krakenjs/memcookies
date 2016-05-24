@@ -1,8 +1,8 @@
 
 import { extend, interceptHeader } from './lib';
 
-var HEADER_NAME = 'x-cookies';
-var cookies = {};
+let HEADER_NAME = 'x-cookies';
+let cookies = {};
 
 export function setCookies(json) {
     extend(cookies, JSON.parse(cookies));
