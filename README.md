@@ -75,5 +75,3 @@ memcookies.patchXhr();
 ```
 
 This will hook into each request and response and automatically persist the cookies on the client side for you.
-
-**WARNING**: Please only use this at your own risk. It has not been thoroughly tested across all browsers, and is an experimental feature.
